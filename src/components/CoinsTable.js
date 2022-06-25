@@ -87,10 +87,10 @@ export default function CoinsTable() {
     <ThemeProvider theme={darkTheme}>
       <Container style={{ textAlign: "center" }}>
       <TextField
-          label="Search For a Crypto Currency.."
+          placeholder="Search For a Crypto Currency.."
           variant="outlined"
-          style={{ marginBottom: 20, width: "100%" }}
-          onChange={(e) => setSearch(e.target.value)}
+          style={{ margin: "1rem", width: "100%" }}
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
         />
         <TableContainer component={Paper}>
           {loading ? (

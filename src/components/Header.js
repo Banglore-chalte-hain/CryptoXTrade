@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import { CryptoState } from "../CryptoContext";
+import Cookies from "js-cookie";
+// import Transaction from "./Banner/Transaction";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -51,7 +53,24 @@ function Header() {
             >
               CryptoXTrade
             </Typography>
-            {/* <Button color="inherit">Login</Button> */}
+
+
+
+            {function(){
+                let checkAuthCookie = Cookies.get("authtoken") === "true" ? true : false
+              
+                if(checkAuthCookie){
+                 return  <a style={{ color: 'gold' }} href="/logout">Logout</a>        
+                }
+                else {
+                 return  <a style={{ color: 'gold' }} href="/login">Login</a>           
+                }
+            }()}
+            
+            {/* <a style={{ color: 'gold' }} href="./Banner/Transaction">Transaction</a> */}
+
+            {/* <a href="/login">LOGIN</a> */}
+
             {/* <Select
               variant="outlined"
               labelId="demo-simple-select-label"
@@ -61,13 +80,17 @@ function Header() {
               onChange={(e) => setCurrency(e.target.value)}
             >
               {/* <MenuItem value={"USD"}>USD</MenuItem>
-              <MenuItem value={"INR"}>INR</MenuItem> */} 
+              <MenuItem value={"INR"}>INR</MenuItem> */}
             {/* </Select> */}
+
+              {/* <Transaction /> */}
+
           </Toolbar>
         </Container>
       </AppBar>
     </ThemeProvider>
   );
 }
+
 
 export default Header;

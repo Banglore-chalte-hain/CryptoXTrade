@@ -5,6 +5,8 @@ import App from "./App";
 import "react-alice-carousel/lib/alice-carousel.css";
 import CryptoContext from "./CryptoContext";
 
+
+
 ReactDOM.render(
   <React.StrictMode>
     <CryptoContext>

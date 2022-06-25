@@ -3,7 +3,10 @@ import Homepage from "./Pages/HomePage";
 import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import CoinPage from "./Pages/CoinPage";
-import Header from "./components/Header";
+
+import Login from "./routes/Login";
+import Logout from "./routes/Logout";
+import Register from "./routes/Register";
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -19,9 +22,13 @@ function App() {
   return (
     <BrowserRouter>
       <div className={classes.App}>
-        <Header />
+        {/* <Header /> */}
         <Route path="/" component={Homepage} exact />
         <Route path="/coins/:id" component={CoinPage} exact />
+        <Route path="/login" component={Login} exact />
+        <Route path="/Register" component={Register} exact />
+        <Route path="/logout" component={Logout} exact />
+
       </div>
     </BrowserRouter>
   );

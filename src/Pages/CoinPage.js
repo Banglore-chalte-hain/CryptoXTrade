@@ -8,6 +8,8 @@ import { SingleCoin } from "../config/api";
 import { numberWithCommas } from "../components/CoinsTable";
 import { CryptoState } from "../CryptoContext";
 
+
+
 const CoinPage = () => {
   const { id } = useParams();
   const [coin, setCoin] = useState();
@@ -148,6 +150,7 @@ const CoinPage = () => {
               M
             </Typography>
           </span>
+               
         </div>
       </div>
      <div style={{ display: "flex", width: "70%", height: "55REM" }}><Chart coin={coin} /></div>
