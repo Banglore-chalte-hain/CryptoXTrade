@@ -7,6 +7,7 @@ import Chart from "../components/Chart";
 import { SingleCoin } from "../config/api";
 import { numberWithCommas } from "../components/CoinsTable";
 import { CryptoState } from "../CryptoContext";
+import { Accordion, ListGroup, InputGroup, FormControl, Button } from "react-bootstrap";
 
 
 
@@ -150,7 +151,82 @@ const CoinPage = () => {
               M
             </Typography>
           </span>
-               
+               <div>
+               <Accordion>
+  <Accordion.Item eventKey="0">
+    <Accordion.Header>BUY Coins!</Accordion.Header>
+    <Accordion.Body>
+    <ListGroup>
+  <ListGroup.Item> 
+  <InputGroup className="mb-3">
+    <InputGroup.Text id="inputGroup-sizing-default">Price </InputGroup.Text>
+    <FormControl
+      aria-label="Default"
+      aria-describedby="inputGroup-sizing-default"
+    /><Button variant="success">Lowest Price</Button>
+  </InputGroup>
+      </ListGroup.Item>
+  <ListGroup.Item> 
+  <InputGroup className="mb-3">
+    <InputGroup.Text id="inputGroup-sizing-default">Quantity</InputGroup.Text>
+    <FormControl
+      aria-label="Default"
+      aria-describedby="inputGroup-sizing-default"
+    />
+  </InputGroup>
+  </ListGroup.Item>
+  <ListGroup.Item>  
+  <InputGroup className="mb-3">
+    <InputGroup.Text id="inputGroup-sizing-default">INR</InputGroup.Text>
+    <FormControl
+      aria-label="Default"
+      aria-describedby="inputGroup-sizing-default"
+    />
+  </InputGroup>
+  </ListGroup.Item>
+    </ListGroup>
+    <Button variant="warning">BUY</Button>
+     </Accordion.Body>
+      </Accordion.Item>
+  <Accordion.Item eventKey="1">
+  <Accordion.Header>SELL Coins!</Accordion.Header>
+    <Accordion.Body>
+    <ListGroup>
+  <ListGroup.Item> 
+  <InputGroup className="mb-3">
+    <InputGroup.Text id="inputGroup-sizing-default">Price</InputGroup.Text>
+    <FormControl
+      aria-label="Default"
+      aria-describedby="inputGroup-sizing-default"
+    />
+    <Button variant="danger">Highest Price</Button>
+  </InputGroup>
+      </ListGroup.Item>
+  <ListGroup.Item> 
+  <InputGroup className="mb-3">
+    <InputGroup.Text id="inputGroup-sizing-default">Quantity</InputGroup.Text>
+    <FormControl
+      aria-label="Default"
+      aria-describedby="inputGroup-sizing-default"
+    />
+  </InputGroup>
+  </ListGroup.Item>
+  <ListGroup.Item>  
+  <InputGroup className="mb-3">
+    <InputGroup.Text id="inputGroup-sizing-default">INR</InputGroup.Text>
+    <FormControl
+      aria-label="Default"
+      aria-describedby="inputGroup-sizing-default"
+    />
+  </InputGroup>
+  </ListGroup.Item>
+    </ListGroup>
+    <Button variant="warning">SELL</Button>
+     </Accordion.Body>
+  </Accordion.Item>
+</Accordion>
+
+               </div>
         </div>
       </div>
      <div style={{ display: "flex", width: "70%", height: "55REM" }}><Chart coin={coin} /></div>

@@ -14,6 +14,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { CryptoState } from "../CryptoContext";
 import Cookies from "js-cookie";
+import "./HeaderCSS.css";
 // import Transaction from "./Banner/Transaction";
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +85,7 @@ function Header() {
             {/* </Select> */}
 
               {/* <Transaction /> */}
-
+              <a className="coins_button" href="../Pages/TransactionDetails">Coins</a>
           </Toolbar>
         </Container>
       </AppBar>

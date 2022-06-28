@@ -86,6 +86,12 @@ export default function CoinsTable() {
   return (
     <ThemeProvider theme={darkTheme}>
       <Container style={{ textAlign: "center" }}>
+      <Typography
+          variant="h4"
+          style={{ margin: 18, fontFamily: "Montserrat" }}
+        >
+          Cryptocurrency Prices by Market Cap
+        </Typography>
       <TextField
           placeholder="Search For a Crypto Currency.."
           variant="outlined"
