@@ -64,7 +64,17 @@ export default function CoinsTable() {
   const fetchCoins = async () => {
     setLoading(true);
     const { data } = await axios.get(CoinList(currency));
-    // console.log(data);
+    console.log(data);
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    //   body: JSON.stringify(data),
+    //   mode: 'cors'
+    // };
+
+    // await fetch('http://localhost:3002/addAssets', requestOptions)
+    //   .then(response => response.json())
+    //   .catch((err) => console.log(err))
 
     setCoins(data);
     setLoading(false);
@@ -86,13 +96,13 @@ export default function CoinsTable() {
   return (
     <ThemeProvider theme={darkTheme}>
       <Container style={{ textAlign: "center" }}>
-      <Typography
+        <Typography
           variant="h4"
           style={{ margin: 18, fontFamily: "Montserrat" }}
         >
           Cryptocurrency Prices by Market Cap
         </Typography>
-      <TextField
+        <TextField
           placeholder="Search For a Crypto Currency.."
           variant="outlined"
           style={{ margin: "1rem", width: "100%" }}

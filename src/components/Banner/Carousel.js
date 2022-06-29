@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { TrendingCoins } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
 import { numberWithCommas } from "../CoinsTable";
+// import Asset from "../../models/Asset"
 
 const Carousel = () => {
   const [trending, setTrending] = useState([]);
@@ -13,8 +14,17 @@ const Carousel = () => {
 
   const fetchTrendingCoins = async () => {
     const { data } = await axios.get(TrendingCoins(currency));
+    console.log(data);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify(data),
+      mode: 'cors'
+    };
 
-    // console.log(data);
+    // await fetch('http://localhost:3002/addAssets', requestOptions)
+    //   .then(response => response.json())
+    //   .catch((err) => console.log(err))
     setTrending(data);
   };
 

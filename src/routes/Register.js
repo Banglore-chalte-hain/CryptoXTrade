@@ -64,15 +64,27 @@ const Register = () => {
             return;
         }
         try {
-            const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ "name":user, email, "password":pwd, "password2":matchPwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
+            // const response = await axios.post(REGISTER_URL,
+            //     JSON.stringify({ "name":user, email, "password":pwd, "password2":matchPwd }),
+            //     {
+            //         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            //         // withCredentials: true,
+            //         mode: 'cors'
+            //     }
+            // );
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+                body: JSON.stringify({ "name":user, email, "password":pwd, "password2":matchPwd }),
+                withCredentials: true,
+                mode: 'cors'
+              };
+          
+              await fetch("http://localhost:3002" + REGISTER_URL, requestOptions)
+                .then(response => response.json())
+                .catch((err) => console.log(err))
             // TODO: remove console.logs before deployment
-            console.log(JSON.stringify(response?.data));
+            // console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs

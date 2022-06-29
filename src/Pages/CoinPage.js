@@ -80,6 +80,53 @@ const CoinPage = () => {
   }));
 
   const classes = useStyles();
+  const [QPstate, setQPstate] = useState(
+    {
+      quantity : 0.0,
+      price :0.0
+    }
+  );
+  // const [quantity, setQuantity] = useState(0);
+  function handleChangeQuantityPrice(evt, type) {
+    const value = evt.target.value;
+
+   if (type == "quantity"){
+    setQPstate({
+      quantity: Number(value),
+      price  :  Number(value) * Number(
+        coin?.market_data.current_price[currency.toLowerCase()])
+      })
+    }
+    else {
+      setQPstate({
+        // ...QPstate,
+        price  : Number(value),
+        quantity:  Number(value) / Number(
+          coin?.market_data.current_price[currency.toLowerCase()])
+        })
+    }
+    
+  }
+  function CreateOrder(evt, orderType) {
+    // const value = evt.target.value;
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({
+        coin : coin?.symbol,
+        limit_price: Number(
+          coin?.market_data.current_price[currency.toLowerCase()]),
+        order_type : orderType,
+        quantity : QPstate.quantity,
+        total_INR : QPstate.price
+      }),
+      mode: 'cors'
+    };
+    fetch('http://localhost:3002/orders', requestOptions)
+      .then(response => response.json())
+      .catch((err) => console.log(err))
+  }
+  
 
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
@@ -151,85 +198,160 @@ const CoinPage = () => {
               M
             </Typography>
           </span>
-               <div>
-               <Accordion>
-  <Accordion.Item eventKey="0">
-    <Accordion.Header>BUY Coins!</Accordion.Header>
-    <Accordion.Body>
-    <ListGroup>
-  <ListGroup.Item> 
-  <InputGroup className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-default">Price </InputGroup.Text>
-    <FormControl
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-    /><Button variant="success">Lowest Price</Button>
-  </InputGroup>
-      </ListGroup.Item>
-  <ListGroup.Item> 
-  <InputGroup className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-default">Quantity</InputGroup.Text>
-    <FormControl
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-    />
-  </InputGroup>
-  </ListGroup.Item>
-  <ListGroup.Item>  
-  <InputGroup className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-default">INR</InputGroup.Text>
-    <FormControl
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-    />
-  </InputGroup>
-  </ListGroup.Item>
-    </ListGroup>
-    <Button variant="warning">BUY</Button>
-     </Accordion.Body>
-      </Accordion.Item>
-  <Accordion.Item eventKey="1">
-  <Accordion.Header>SELL Coins!</Accordion.Header>
-    <Accordion.Body>
-    <ListGroup>
-  <ListGroup.Item> 
-  <InputGroup className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-default">Price</InputGroup.Text>
-    <FormControl
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-    />
-    <Button variant="danger">Highest Price</Button>
-  </InputGroup>
-      </ListGroup.Item>
-  <ListGroup.Item> 
-  <InputGroup className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-default">Quantity</InputGroup.Text>
-    <FormControl
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-    />
-  </InputGroup>
-  </ListGroup.Item>
-  <ListGroup.Item>  
-  <InputGroup className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-default">INR</InputGroup.Text>
-    <FormControl
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-    />
-  </InputGroup>
-  </ListGroup.Item>
-    </ListGroup>
-    <Button variant="warning">SELL</Button>
-     </Accordion.Body>
-  </Accordion.Item>
-</Accordion>
+          <div>
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>BUY Coins!</Accordion.Header>
+                <Accordion.Body>
+                  <ListGroup>
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text className="inputGroup-sizing-default">Price </InputGroup.Text>
+                        <FormControl
+                          aria-label="Default"
+                          aria-describedby="inputGroup-sizing-default"
+                          value={numberWithCommas(
+                            coin?.market_data.current_price[currency.toLowerCase()]
+                          )}
+                        />
+                        <Button variant="success">Lowest Price</Button>
+                      </InputGroup>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text className="inputGroup-sizing-default">Quantity</InputGroup.Text>
+                        <FormControl
+                          aria-label="Default"
+                          presicion={2} 
+                          min="0.00"
+                          step="0.001"
+                          max="1.00"
+                          autocomplete="off"
+                          pattern="[+-]?\d+(?:[.,]\d+)?"
+                          placeholder="0.0"
+                          aria-describedby="inputGroup-sizing-default"
+                          onChange={(e) => {
+                           
+                            console.log(
+                              coin?.market_data.current_price[currency.toLowerCase()])
+                            
+                            handleChangeQuantityPrice(e,"quantity")
+                          
+                          }
+                        }
+                        value = {QPstate.quantity}
 
-               </div>
+                        />
+                      </InputGroup>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text className="inputGroup-sizing-default">INR</InputGroup.Text>
+                        <FormControl
+                          aria-label="Default"
+                          presicion={2} 
+                          min="0.00"
+                          step="0.001"
+                          max="1.00"  
+                          pattern="[+-]?\d+(?:[.,]\d+)?"
+                          placeholder="0.0"
+                          aria-describedby="inputGroup-sizing-default"
+                          autocomplete="off"
+                          onChange={(e) => {
+                          
+                            console.log(
+                              coin?.market_data.current_price[currency.toLowerCase()])
+                            handleChangeQuantityPrice(e,"price")
+                          }}
+                        value={QPstate.price}
+                        />
+                      </InputGroup>
+                    </ListGroup.Item>
+                  </ListGroup>
+                  <Button variant="warning" onClick={(e) => {
+                          CreateOrder(e)
+                        }}>BUY</Button>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>SELL Coins!</Accordion.Header>
+                <Accordion.Body>
+                  <ListGroup>
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text className="inputGroup-sizing-default">Price</InputGroup.Text>
+                        <FormControl
+                          aria-label="Default"
+                          aria-describedby="inputGroup-sizing-default"
+                          value={numberWithCommas(
+                            coin?.market_data.current_price[currency.toLowerCase()]
+                          )}
+                        />
+                        <Button variant="danger">Highest Price</Button>
+                      </InputGroup>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text className="inputGroup-sizing-default">Quantity</InputGroup.Text>
+                        <FormControl
+                          aria-label="Default"
+                          presicion={2} 
+                          min="0.00"
+                          step="0.001"
+                          max="1.00"
+                          autocomplete="off"
+                          pattern="[+-]?\d+(?:[.,]\d+)?"
+                          placeholder="0.0"
+                          aria-describedby="inputGroup-sizing-default"
+                          onChange={(e) => {
+                           
+                            console.log(
+                              coin?.market_data.current_price[currency.toLowerCase()])
+                            
+                            handleChangeQuantityPrice(e,"quantity")
+                          
+                          }
+                        }
+                        value = {QPstate.quantity}
+
+                        />
+                      </InputGroup>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text className="inputGroup-sizing-default">INR</InputGroup.Text>
+                        <FormControl
+                          aria-label="Default"
+                          presicion={2} 
+                          min="0.00"
+                          step="0.001"
+                          max="1.00"  
+                          pattern="[+-]?\d+(?:[.,]\d+)?"
+                          placeholder="0.0"
+                          aria-describedby="inputGroup-sizing-default"
+                          autocomplete="off"
+                          onChange={(e) => {
+                          
+                            console.log(
+                              coin?.market_data.current_price[currency.toLowerCase()])
+                            handleChangeQuantityPrice(e,"price")
+                          }}
+                        value={QPstate.price}
+                        />
+                      </InputGroup>
+                    </ListGroup.Item>
+                  </ListGroup>
+                  <Button variant="warning" onClick={(e) => {
+                          CreateOrder(e)
+                        }}>SELL</Button>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+
+          </div>
         </div>
       </div>
-     <div style={{ display: "flex", width: "70%", height: "55REM" }}><Chart coin={coin} /></div>
+      <div style={{ display: "flex", width: "70%", height: "55REM" }}><Chart coin={coin} /></div>
     </div>
   );
 };

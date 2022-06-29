@@ -26,15 +26,27 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json'},
-                    withCredentials: true
-                }
-            );
-            console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
+            // const response = await axios.post(LOGIN_URL,
+            //     JSON.stringify({ user, pwd }),
+            //     {
+            //         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+            //         // withCredentials: true,
+            //         mode: 'cors'
+            //     }
+            // );
+            // console.log(JSON.stringify(response?.data));
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+                body: JSON.stringify({ user, pwd}),
+                withCredentials: true,
+                mode: 'cors'
+              };
+          
+              await fetch("http://localhost:3002" + LOGIN_URL, requestOptions)
+                .then(response => response.json())
+                .catch((err) => console.log(err))
+            // console.log(JSON.stringify(response));
             // const accessToken = response?.data?.accessToken;
             // const roles = response?.data?.roles;
             // setAuth({ user, pwd });

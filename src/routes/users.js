@@ -5,10 +5,11 @@ const passport = require('passport');
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
-
+// global.user_id = require('user_id')
+// var user_id;
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => {
-  res.cookie("authtoken", true);
+  res.cookie("authtoken", true)
   res.json({ 'message': 'success' })
 });
 
@@ -59,10 +60,13 @@ router.post('/register', (req, res) => {
             newUser
               .save()
               .then(user => {
+                global.user_id=user.id
+                console.log("userid",user.id)
                 req.flash(
                   'success_msg',
                   'You are now registered and can log in'
                 );
+                // res.cookie("authtoken", true);
                 res.redirect('/users/login');
               })
               .catch(err => console.log(err));
@@ -75,7 +79,33 @@ router.post('/register', (req, res) => {
 
 // Login
 router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
+  
+  // User.findOne({ name: req.body.name }).then(user => {
+  //   console.log(user)
+  //   if (user) {
+  //     global.user_id = user.id
+  //     console.log("userid",user.id)
+  //     console.log("globaluserid",global.user_id)
+      // bcrypt.compare(req.body.password, user.password, function(err, res) {
+      //   if (err){
+      //     // handle error
+      //     // res.json({ 'message': 'error', 'error' : err })
+      //   }
+      //   if (res){
+      //     // Send JWT
+          
+      //     //  res.json({ 'message': res })
+      //   } else {
+      //     // response is OutgoingMessage object that server response http request
+      //     //  res.json({success: false, message: 'passwords do not match'});
+      //   }
+      // })
+    //   res.cookie("authtoken", true);
+    //   // res.redirect('/users/login');
+    // } 
+    // })
+    // res.redirect('/users/login');
+    passport.authenticate('local', {
     successRedirect: '/users/login',
     failureRedirect: '/users/login',
     failureFlash: true
